@@ -49,6 +49,7 @@ public class ImageController {
     @RequestMapping("/images/{imageId}/{title}")
     public String showImage(@PathVariable("imageId") Integer imageId, @PathVariable("title") String title,Model model) {
         Image image = imageService.getImageByImageId(imageId);
+        model.addAttribute("comments", image.getComments());
         model.addAttribute("image", image);
         model.addAttribute("tags", image.getTags());
         return "images/image";
@@ -214,6 +215,6 @@ public class ImageController {
         User currentUser = (User) session.getAttribute("loggeduser");
         Integer currentUserId = currentUser.getId();
 
-        return currentUserId == imgOwnerId ? true : false;
+        return currentUserId.equals(imgOwnerId);
     }
 }
